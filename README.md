@@ -127,3 +127,39 @@ public class LoggerRoot {
     }
 }
 ```
+## Step 6
+Run Application. The log will look like in a console.
+
+If you want to see log in a json format you need to do the following:
+- add the dependencies:
+```xml
+<dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-databind</artifactId>
+   <version>2.11.4</version>
+</dependency>
+<!-- ch.qos.logback.contrib.jackson.JacksonJsonFormatter -->
+<dependency>
+   <groupId>ch.qos.logback.contrib</groupId>
+   <artifactId>logback-jackson</artifactId>
+   <version>0.1.5</version>
+</dependency>
+
+<!-- ch.qos.logback.contrib.json.classic.JsonLayout -->
+<dependency>
+   <groupId>ch.qos.logback.contrib</groupId>
+   <artifactId>logback-json-classic</artifactId>
+   <version>0.1.5</version>
+</dependency>
+```
+- change encoder to a logback.xml:
+```xml
+<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+   <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+       <timestampFormat>yyyy-MM-dd HH:mm:ss.SSS</timestampFormat>
+       <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+           <prettyPrint>true</prettyPrint>
+       </jsonFormatter>
+   </layout>
+</encoder>
+```
