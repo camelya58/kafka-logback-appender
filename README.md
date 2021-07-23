@@ -156,7 +156,10 @@ If you want to see log in a json format you need to do the following:
 ```xml
 <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-       <timestampFormat>yyyy-MM-dd HH:mm:ss.SSS</timestampFormat>
+                     <!--    with timexone   -->
+       <timestampFormat>yyyy-MM-dd HH:mm:ss.SSSXXX</timestampFormat>
+                     <!--    in UTC    -->
+       <timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>
        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
            <prettyPrint>true</prettyPrint>
        </jsonFormatter>
