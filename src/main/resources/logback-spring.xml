@@ -1,0 +1,145 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="audit-appender.xml"/>
+
+    <springProperty scope="context" name="address" source="spring.kafka.bootstrap-servers"/>
+    <springProperty scope="context" name="main-topic" source="spring.kafka.topics.main"/>
+    <springProperty scope="context" name="error-topic" source="spring.kafka.topics.error"/>
+    <springProperty scope="context" name="logsFolder" source="logsToFile.logsFolder"/>
+    <springProperty scope="context" name="logsToKafka" source="logsToKafka"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE-AUDIT"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/main.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logsFolder}/%d{yyyy/MM, aux}/main-%d{yyyy-MM-dd-HH}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="FILE-ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>logs/errors.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logsFolder}/%d{yyyy/MM, aux}/errors-%d{yyyy-MM-dd-HH}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <if condition='property("logsToKafka").contains("true")'>
+        <then>
+            <appender name="main-kafka-appender"
+                      class="com.github.camelya58.kafka_logback_appender.kafka_appender.KafkaAppender">
+                <!--                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+                <!--                    <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+                <!--                </encoder>-->
+                <!--                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+                <!--                    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">-->
+                <!--                        <timestampFormat>yyyy-MM-dd HH:mm:ss.SSSXXX</timestampFormat>-->
+                <!--                        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">-->
+                <!--                            <prettyPrint>true</prettyPrint>-->
+                <!--                        </jsonFormatter>-->
+                <!--                    </layout>-->
+                <!--                </encoder>-->
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <jsonGeneratorDecorator class="net.logstash.logback.decorate.PrettyPrintingJsonGeneratorDecorator"/>
+                    <includeContext>false</includeContext>
+                    <fieldNames>
+                        <timestamp>@timestamp</timestamp>
+                        <version>[ignore]</version>
+                        <level>level</level>
+                        <levelValue>[ignore]</levelValue>
+                        <caller>[ignore]</caller>
+                        <thread>thread</thread>
+                        <logger>logger</logger>
+                        <message>message</message>
+                    </fieldNames>
+                    <customFields>{"topic":"${main-topic}"}</customFields>
+                </encoder>
+
+                <topic>${main-topic}</topic>
+                <keyingStrategy
+                        class="com.github.camelya58.kafka_logback_appender.kafka_appender.keying.LoggerLevelKeyingStrategy"/>
+                <deliveryStrategy
+                        class="com.github.camelya58.kafka_logback_appender.kafka_appender.delivery.AsynchronousDeliveryStrategy"/>
+
+                <producerConfig>bootstrap.servers=${address}</producerConfig>
+                <producerConfig>acks=0</producerConfig>
+                <producerConfig>linger.ms=100</producerConfig>
+                <producerConfig>max.block.ms=100</producerConfig>
+                <producerConfig>client.id=${HOSTNAME}-${CONTEXT_NAME}-logback-main</producerConfig>
+
+            </appender>
+
+            <appender name="error-kafka-appender"
+                      class="com.github.camelya58.kafka_logback_appender.kafka_appender.KafkaAppender">
+
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>ERROR</level>
+                </filter>
+
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                        <timestampFormat>yyyy-MM-dd HH:mm:ss.SSSXXX</timestampFormat>
+                        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                            <prettyPrint>true</prettyPrint>
+                        </jsonFormatter>
+                    </layout>
+                </encoder>
+
+                <topic>${error-topic}</topic>
+                <keyingStrategy
+                        class="com.github.camelya58.kafka_logback_appender.kafka_appender.keying.LoggerLevelKeyingStrategy"/>
+                <deliveryStrategy
+                        class="com.github.camelya58.kafka_logback_appender.kafka_appender.delivery.AsynchronousDeliveryStrategy"/>
+
+                <producerConfig>bootstrap.servers=${address}</producerConfig>
+
+                <producerConfig>client.id=${HOSTNAME}-${CONTEXT_NAME}-logback-error</producerConfig>
+                <producerConfig>compression.type=gzip</producerConfig>
+
+                <appender-ref ref="STDERR"/>
+            </appender>
+            <root level="INFO">
+                <appender-ref ref="main-kafka-appender"/>
+                <appender-ref ref="error-kafka-appender"/>
+            </root>
+        </then>
+    </if>
+
+    <root level="INFO">
+        <appender-ref ref="FILE-AUDIT"/>
+        <appender-ref ref="FILE-ERROR"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

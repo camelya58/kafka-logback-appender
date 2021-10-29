@@ -1,0 +1,15 @@
+server:
+  port: 8090
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      main: main_topic
+      error: error_topic
+
+logsToFile:
+  logsFolder: api_logs
+  fileNameDateFormat: yyyy_MM_dd_HH-mm
+
+logsToKafka: true

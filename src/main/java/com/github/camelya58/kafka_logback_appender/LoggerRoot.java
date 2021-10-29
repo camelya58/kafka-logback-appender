@@ -2,20 +2,24 @@ package com.github.camelya58.kafka_logback_appender;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
+@SpringBootApplication
 public class LoggerRoot {
     private static final Logger logger = LoggerFactory.getLogger(LoggerRoot.class.getSimpleName());
 
-    public static void main(String... args) throws InterruptedException {
-        int counter = 0;
-        while (counter < 10) {
-            logger.info("Counter:" + counter);
-            counter++;
+    public static void main(String... args) {
+        logger.info("Start");
+        SpringApplication springApplication = new SpringApplication(LoggerRoot.class);
+        Environment environment = springApplication.run(args).getEnvironment();
 
-        }
-        logger.error("Counter:" + counter);
-        Thread.sleep(1000);
         logger.info("Completed");
-        logger.error("Completed");
+        logger.info("\n------------------------------------------\n\t" +
+                        "Application '{}' is running!\n\t" +
+                        "Access URL: http://127.0.0.1:{}/swagger-ui.html\n",
+                "LoggerRoot",
+                environment.getProperty("server.port"));
     }
 }

@@ -1,0 +1,95 @@
+13:02:49 [http-nio-8090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:02:49 [http-nio-8090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+13:02:50 [http-nio-8090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 94 ms
+13:05:42 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+13:06:00 [main] INFO  o.a.k.c.producer.ProducerConfig - ProducerConfig values: 
+	acks = 0
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = default
+	client.id = MacBook-Air-Igor.local-default-logback-main
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = false
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 100
+	max.block.ms = 100
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+
+13:06:00 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 2.3.1
+13:06:00 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: 18a913733fb71c01
+13:06:00 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1635501960364
+13:05:59 [main] INFO  c.g.c.k.LoggerRoot - Starting LoggerRoot on MacBook-Air-Igor.local with PID 58325 (/Users/igor/IdeaProjects/kafka-logback-appender/target/classes started by igor in /Users/igor/IdeaProjects/kafka-logback-appender)
+13:06:00 [main] INFO  c.g.c.k.LoggerRoot - No active profile set, falling back to default profiles: default
+13:06:00 [kafka-producer-network-thread | MacBook-Air-Igor.local-default-logback-main] INFO  org.apache.kafka.clients.Metadata - [Producer clientId=MacBook-Air-Igor.local-default-logback-main] Cluster ID: IkVR4TloSpiJkSOgp8d8ow
+13:06:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8090 (http)
+13:06:02 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+13:06:02 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.33]
+13:06:02 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+13:06:02 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2189 ms
+13:06:03 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+13:06:03 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+13:06:03 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Context refreshed
+13:06:03 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+13:06:03 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
+13:06:04 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8090 (http) with context path ''
+13:06:04 [main] INFO  c.g.c.k.LoggerRoot - Started LoggerRoot in 10.493 seconds (JVM running for 11.451)
+13:06:04 [main] INFO  LoggerRoot - Completed
+13:06:04 [main] INFO  LoggerRoot - 
+------------------------------------------
+	Application 'LoggerRoot' is running!
+	Access URL: http://127.0.0.1:8090/swagger-ui.html
+
+13:06:33 [http-nio-8090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:06:33 [http-nio-8090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+13:06:33 [http-nio-8090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 20 ms
