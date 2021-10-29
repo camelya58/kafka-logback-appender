@@ -217,6 +217,10 @@ If you need custom fields:
                         <thread>thread</thread>
                         <logger>logger</logger>
                         <message>message</message>
+                        <caller>trace</caller>
+                        <stackTrace>exception</stackTrace>
+                        <!-- if context is included -->
+                        <mdc>context</mdc>
                     </fieldNames>
                     <customFields>{"topic":"${main-topic}"}</customFields>
  </encoder>
